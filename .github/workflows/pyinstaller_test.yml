@@ -1,0 +1,55 @@
+name: 打包test.py为exe
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 安装python环境
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: 安装pyinstaller
+        run: pip install pyinstaller
+
+      - name: 取随机数
+        id: create_random
+        run: get-random -inputobject (1..3)
+        
+      - name: 打包单文件exe并移动至根目录
+        run: |
+          pyinstaller -F -i ./icon/${{ steps.create_random.outputs }}.ico ./test.py
+          move ./dist/test.exe ./
+
+      - name: 打包exe为压缩包
+        run: |
+          pyinstaller -D -i ./icon/${{ steps.create_random.outputs }}.ico ./test.py
+          Compress-Archive -Path ./dist/test/ -DestinationPath ./test.zip
+        
+      - name: 上传Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: test
+          path: dist/
+          
+      - name: 自动生成更新文档
+        run: write-output "CHANGELOG:${{ github.event.head_commit.message }}" | out-file -filepath ./CHANGELOG.txt
+        
+      - name: 上传Release
+        uses: ncipollo/release-action@v1.8.0
+        with:
+          artifacts: "./test.exe,./test.zip"
+          tag: Pyinstaller-${{ github.sha }}
+          bodyFile: "./CHANGELOG.txt"
+          token: ${{ secrets.GITHUB_TOKEN }}
