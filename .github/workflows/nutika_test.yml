@@ -27,7 +27,7 @@ jobs:
 
       - name: 打包exe
         run: |
-          nuitka --standalone --windows-disable-console --mingw64 --show-progress --show-memory --windows-icon-from-ico=./icon/2.ico --output-dir=out ./test.py
+          nuitka --standalone --windows-disable-console --mingw64 --show-progress --show-memory --windows-icon-from-ico=./icon/2.ico --output-dir=out ./test.py y
 
       - name: 打压缩包
         run: |
