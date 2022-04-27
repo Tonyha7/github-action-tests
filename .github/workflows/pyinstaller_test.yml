@@ -14,33 +14,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: msys2/setup-msys2@v2
+      
       - uses: actions/setup-python@v3
         with:
           python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
           
-      - name: 安装pyinstaller
-        run: pip install pyinstaller
+      - name: 安装nuitka
+        run: pip install nuitka
 
-      - name: 取随机数
-        id: create_random
-        run: get-random -inputobject (1..3)
-        
-      - name: 打包单文件exe并移动至根目录
+      - name: 打包exe
         run: |
-          pyinstaller -F -i ./icon/${{ steps.create_random.outputs }}.ico ./test.py
-          move ./dist/test.exe ./
+          nuitka --standalone --windows-disable-console --mingw64 --show-progress --show-memory --windows-icon-from-ico=./icon/2.ico --output-dir=out ./test.py
 
-      - name: 打包exe为压缩包
+      - name: 打压缩包
         run: |
-          pyinstaller -D -i ./icon/${{ steps.create_random.outputs }}.ico ./test.py
-          Compress-Archive -Path ./dist/test/ -DestinationPath ./test.zip
-        
-      - name: 上传Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: test
-          path: dist/
+          Compress-Archive -Path ./out/ -DestinationPath ./test.zip
           
       - name: 自动生成更新文档
         run: write-output "CHANGELOG:${{ github.event.head_commit.message }}" | out-file -filepath ./CHANGELOG.txt
@@ -48,7 +38,7 @@ jobs:
       - name: 上传Release
         uses: ncipollo/release-action@v1.8.0
         with:
-          artifacts: "./test.exe,./test.zip"
-          tag: Pyinstaller-${{ github.sha }}
+          artifacts: "./test.zip"
+          tag: nuitka-${{ github.sha }}
           bodyFile: "./CHANGELOG.txt"
           token: ${{ secrets.GITHUB_TOKEN }}
