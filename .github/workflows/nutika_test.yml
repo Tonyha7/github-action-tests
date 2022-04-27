@@ -14,7 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: msys2/setup-msys2@v2
+      - name: Set up MinGW
+        uses: egor-tensin/setup-mingw@v2
       
       - uses: actions/setup-python@v3
         with:
