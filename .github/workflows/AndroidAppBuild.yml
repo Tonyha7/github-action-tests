@@ -27,7 +27,8 @@ jobs:
       - name: Clone源碼
         run: |
           git clone ${{ github.event.inputs.Project }}
-          mv /${{ github.event.inputs.ProjectName }}/ /
+          ls
+          mv ${{ github.event.inputs.ProjectName }}/ /
           
       - name: 授予gradlew執行權限
         run: chmod +x gradlew
