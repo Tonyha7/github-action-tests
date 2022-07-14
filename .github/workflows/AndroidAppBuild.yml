@@ -20,7 +20,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '8'
-          
+      - name: Clone源碼
+        run: |
+          git clone ${{ github.event.inputs.Project }} ./
       - name: 授予gradlew執行權限
         run: chmod +x gradlew
         
