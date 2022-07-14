@@ -7,7 +7,10 @@ on:
         description: '項目地址'
         required: true
         default: 'https://github.com/Tonyha7/FLinspirer.git'
-
+      ProjectName:
+        description: '項目名称'
+        required: true
+        default: 'FLinspirer'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +26,8 @@ jobs:
           
       - name: Clone源碼
         run: |
-          git clone ${{ github.event.inputs.Project }} 
+          git clone ${{ github.event.inputs.Project }}
+          cd ${{ github.event.inputs.ProjectName }}
           
       - name: 授予gradlew執行權限
         run: chmod +x gradlew
