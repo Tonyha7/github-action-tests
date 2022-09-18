@@ -22,19 +22,21 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '11'
           
       - name: Clone源碼
         run: |
-          git clone ${{ github.event.inputs.Project }}
+          git clone ${{ github.event.inputs.Project }} ${{ github.event.inputs.ProjectName }}
           ls -a
           cd ./${{ github.event.inputs.ProjectName }}/
+          ls
           
       - name: 授予gradlew執行權限
-        run: chmod +x gradlew
+        run: chmod +x ./${{ github.event.inputs.ProjectName }}/gradlew
         
       - name: 構建Debug&Release
         run: |
+          cd ./${{ github.event.inputs.ProjectName }}/
           ./gradlew assembleDebug
           ./gradlew assembleRelease
           
@@ -42,4 +44,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Build
-          path: app/build/outputs/apk/
+          path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/apk/
