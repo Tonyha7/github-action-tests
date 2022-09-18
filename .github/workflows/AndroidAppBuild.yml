@@ -37,7 +37,6 @@ jobs:
       - name: 構建Debug&Release
         run: |
           cd ./${{ github.event.inputs.ProjectName }}/
-          ./gradlew assembleDebug
           ./gradlew assembleRelease
           
       - name: 上傳Artifact
