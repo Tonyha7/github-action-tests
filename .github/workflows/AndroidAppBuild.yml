@@ -24,6 +24,9 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           
+      - name: 安裝CMAKE
+        uses: lukka/get-cmake@latest
+        
       - name: Clone源碼
         run: |
           git clone ${{ github.event.inputs.Project }} ${{ github.event.inputs.ProjectName }}
@@ -34,7 +37,7 @@ jobs:
       - name: 授予gradlew執行權限
         run: chmod +x ./${{ github.event.inputs.ProjectName }}/gradlew
         
-      - name: 構建Debug&Release
+      - name: 構建Release
         run: |
           cd ./${{ github.event.inputs.ProjectName }}/
           ./gradlew assembleRelease
@@ -42,5 +45,5 @@ jobs:
       - name: 上傳Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Build
+          name: ${{ github.event.inputs.ProjectName }}_Build
           path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/apk/
