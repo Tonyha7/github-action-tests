@@ -54,4 +54,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.inputs.ProjectName }}_Build
-          path: ${{ github.event.inputs.ProjectName }}/app/build/
+          path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/apk/
