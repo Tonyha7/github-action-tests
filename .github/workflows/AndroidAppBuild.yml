@@ -3,6 +3,10 @@ name: Android App Build
 on:
   workflow_dispatch:
     inputs:
+      JDK:
+        description: 'JDK'
+        required: true
+        default: '8'
       Project:
         description: '項目地址'
         required: true
@@ -11,6 +15,10 @@ on:
         description: '項目名称'
         required: true
         default: 'FLinspirer'
+      BCommand:
+        description: '構建命令'
+        required: true
+        default: 'gradlew build'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,7 +30,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: ${{ github.event.inputs.JDK }}
           
       - name: 安裝CMAKE
         uses: lukka/get-cmake@latest
@@ -40,10 +48,10 @@ jobs:
       - name: 構建Release
         run: |
           cd ./${{ github.event.inputs.ProjectName }}/
-          ./gradlew build
+          ./${{ github.event.inputs.BCommand }}
           
       - name: 上傳Artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.inputs.ProjectName }}_Build
-          path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/apk/
+          path: ${{ github.event.inputs.ProjectName }}/app/build/
