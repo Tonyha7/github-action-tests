@@ -32,6 +32,15 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ github.event.inputs.JDK }}
           
+      - name: Android SDK
+        uses: android-actions/setup-android@v2
+          
+      - name: NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r25b
+          
       - name: 安裝CMAKE
         uses: lukka/get-cmake@latest
         
