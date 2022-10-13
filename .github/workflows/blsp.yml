@@ -18,7 +18,13 @@ jobs:
     steps:
       - name: 準備
         uses: actions/checkout@v3
-      
+        
+      - name: SSH Keys
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+            ssh-private-key: |
+                ${{ secrets.SSH_PRIVATE_KEY }}
+                
       - name: 安裝JDK環境
         uses: actions/setup-java@v3
         with:
@@ -36,7 +42,15 @@ jobs:
           
       - name: 跑
         run: |
-          git clone https://github.com/ljlVink/LinspirerDemo.git
-          cd ./LinspirerDemo/LinspirerDemo-master/
+          git clone git@github.com:ljlVink/LinspirerDemo.git
+          cd ./LinspirerDemo
+          git submodule update --init
+          cd ./LinspirerDemo-master
           chmod 777 gradlew
           ./${{ github.event.inputs.BCommand }}
+
+      - name: 上傳Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: LSPDemo_Build
+          path: ./LinspirerDemo/LinspirerDemo-master/app/build/outputs/apk/
