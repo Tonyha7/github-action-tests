@@ -39,14 +39,23 @@ jobs:
         id: setup-ndk
         with:
           ndk-version: r25b
-          #git submodule update --init
+          
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+          
       - name: 跑
         run: |
           git clone git@github.com:ljlVink/LinspirerDemo.git
           cd ./LinspirerDemo
+          git submodule update --init
           cd ./LinspirerDemo-master
-          rm -rf ./hackmdm
-          git clone git@github.com:ljlVink/HackMdm-core.git hackmdm
+          mkdir libs
+          cp ./hackmdm/libs/* ./libs
+          cd ./libs/
+          ls
+          cd ..
           chmod 777 gradlew
           ./${{ github.event.inputs.BCommand }}
 
