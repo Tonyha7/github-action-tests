@@ -6,7 +6,7 @@ on:
       JDK:
         description: 'JDK'
         required: true
-        default: '11'
+        default: '8'
       APK:
         description: 'APK直链'
         required: false
