@@ -1,0 +1,52 @@
+name: 构建DexGuard
+
+on:
+  workflow_dispatch:
+    inputs:
+      JDK:
+        description: 'JDK'
+        required: true
+        default: '8'
+      BCommand:
+        description: '構建命令'
+        required: true
+        default: 'gradlew clean app:assembleRelease'
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 準備
+        uses: actions/checkout@v3
+                
+      - name: 安裝JDK環境
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ github.event.inputs.JDK }}
+          
+      - name: Android SDK
+        uses: android-actions/setup-android@v2
+          
+      - name: NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r25b
+          
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+      - name: 跑
+        run: |
+          df -h
+          git clone https://github.com/apkunpacker/ApkProtector-multiplatform
+          cd ./ApkProtector-multiplatform/DexGuard/Android/DexGuard
+          chmod 777 gradlew
+          ./${{ github.event.inputs.BCommand }}
+      - name: 上傳Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: LSPDemo_Build
+          path: ./ApkProtector-multiplatform/DexGuard/Android/DexGuard/app/build/outputs/apk/
