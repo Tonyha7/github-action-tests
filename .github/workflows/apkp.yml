@@ -6,7 +6,7 @@ on:
       JDK:
         description: 'JDK'
         required: true
-        default: '8'
+        default: '11'
       BCommand:
         description: '構建命令'
         required: true
@@ -42,11 +42,11 @@ jobs:
         run: |
           df -h
           git clone https://github.com/apkunpacker/ApkProtector-multiplatform
-          cd ./ApkProtector-multiplatform/DexGuard/Android/DexGuard
+          cd ./ApkProtector-multiplatform/ApkProtector/Android/ApkProtector-Premium/
           chmod 777 gradlew
           ./${{ github.event.inputs.BCommand }}
       - name: 上傳Artifact
         uses: actions/upload-artifact@v2
         with:
           name: LSPDemo_Build
-          path: ./ApkProtector-multiplatform/DexGuard/Android/DexGuard/app/build/outputs/apk/
+          path: ./ApkProtector-multiplatform/ApkProtector/Android/ApkProtector-Premium/app/build/outputs/apk/
