@@ -6,15 +6,15 @@ on:
       JDK:
         description: 'JDK'
         required: true
-        default: '8'
+        default: '11'
       Project:
         description: '項目地址'
         required: true
-        default: 'https://github.com/Tonyha7/FLinspirer.git'
+        default: 'https://github.com/xiaojieonly/Ehviewer_CN_SXJ'
       ProjectName:
         description: '項目名称'
         required: true
-        default: 'FLinspirer'
+        default: 'Ehviewer_CN_SXJ'
       BCommand:
         description: '構建命令'
         required: true
@@ -39,11 +39,8 @@ jobs:
         uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r25b
-          
-      - name: 安裝CMAKE
-        uses: lukka/get-cmake@latest
-        
+          ndk-version: r23b
+
       - name: Clone源碼
         run: |
           git clone ${{ github.event.inputs.Project }} ${{ github.event.inputs.ProjectName }}
