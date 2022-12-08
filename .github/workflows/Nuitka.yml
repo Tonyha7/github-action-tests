@@ -15,18 +15,20 @@ jobs:
         with:
           python-version: '3.10'
           cache: 'pip'
+          architecture: 'x64'
 
       - name: 安装requirements.txt
         run: pip install -r requirements.txt
 
-      - name: 安装nuitka
-        run: pip install nuitka
-
+      - nName: Build Executable
+        uses: Nuitka/Nuitka-Action@main
+        with:
+          script-name: test
+          onefile: true
 
       - name: 打包单文件exe并移动至根目录
         run: |
-          nuitka --mingw64 --standalone --output-dir=out --windows-product-name=msykanswer --windows-file-description=msyk --onefile test.py
-          move ./out/test.exe ./
+          move ./build/test.exe ./
           
       - name: 自动生成更新文档
         run: write-output "CHANGELOG:${{ github.event.head_commit.message }}" | out-file -filepath ./CHANGELOG.txt
