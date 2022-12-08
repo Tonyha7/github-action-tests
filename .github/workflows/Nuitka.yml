@@ -25,7 +25,7 @@ jobs:
 
       - name: 打包单文件exe并移动至根目录
         run: |
-          nuitka --mingw64 --standalone --output-dir=out --windows-product-name=msykanswer --windows-file-description=美师优课辅助学习 --onefile test.py
+          nuitka --mingw64 --standalone --output-dir=out --windows-product-name=msykanswer --windows-file-description=msyk --onefile test.py
           move ./out/test.exe ./
           
       - name: 自动生成更新文档
