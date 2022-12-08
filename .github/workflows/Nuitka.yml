@@ -20,7 +20,7 @@ jobs:
       - name: 安装requirements.txt
         run: pip install -r requirements.txt
 
-      - nName: Build Executable
+      - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
         with:
           script-name: test
