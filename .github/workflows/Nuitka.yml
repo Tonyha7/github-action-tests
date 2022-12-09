@@ -23,7 +23,7 @@ jobs:
       - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
         with:
-          script-name: test
+          script-name: test.py
           onefile: true
 
       - name: 打包单文件exe并移动至根目录
