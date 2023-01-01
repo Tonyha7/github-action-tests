@@ -1,0 +1,35 @@
+name: 构建chiron内核
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout kernel source
+      uses: actions/checkout@v2
+
+    - name: Checkout zipper
+      uses: actions/checkout@v2
+      with:
+        repository: zclkkk/AnyKernel3
+        path: zipper
+
+    - name: Android kernel build
+      uses: Tonyha7/android-kernel-actions@master
+      id: build
+      env:
+        NAME: buildKernel
+      with:
+        arch: arm64
+        compiler: aosp-clang/master/clang-r475365b
+        defconfig: chiron_defconfig
+        image: Image.gz-dtb
+
+    - name: Release build
+      uses: ncipollo/release-action@v1.8.0
+      with:
+        artifacts: ${{ steps.build.outputs.outfile }}
+        tag: ver-${{ github.sha }}
+        token: ${{ secrets.GITHUB_TOKEN }}
