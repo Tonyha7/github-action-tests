@@ -23,7 +23,7 @@ jobs:
       
       - name: 下载img
         run: |
-          curl -o ./work/${{ github.event.inputs.IMGTYPE }} ${{ github.event.inputs.IMG }}
+          curl -o ./work/${{ github.event.inputs.IMGTYPE }}.img ${{ github.event.inputs.IMG }}
           
       - name: 解包
         run: |
