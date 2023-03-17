@@ -23,7 +23,7 @@ jobs:
       
       - name: 下载img
         run: |
-          wget -P work ${{ github.event.inputs.IMG }}
+          curl -o ./work/${{ github.event.inputs.IMGTYPE }} ${{ github.event.inputs.IMG }}
           
       - name: 解包
         run: |
@@ -37,7 +37,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./build/unzip_${{ github.event.inputs.IMGTYPE }}/Unpack_${{ github.event.inputs.IMGTYPE }}.zip
+            ./work/build/unzip_${{ github.event.inputs.IMGTYPE }}/Unpack_${{ github.event.inputs.IMGTYPE }}.zip
           name: Unpack-${{ github.run_id }}
           tag_name: ${{ github.run_id }}
           body: Unpack
