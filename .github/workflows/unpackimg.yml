@@ -1,0 +1,45 @@
+name: Android IMG Unpack
+
+on:
+  workflow_dispatch:
+    inputs:
+      IMG:
+        description: 'IMG直链'
+        required: true
+      IMGTYPE:
+        description: 'IMG类型'
+        required: true
+        default: 'boot'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 准备
+        run: |
+          sudo apt update
+          sudo apt install git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full
+          git clone https://github.com/cfig/Android_boot_image_editor work --depth=1
+      
+      - name: 下载img
+        run: |
+          wget -P work ${{ github.event.inputs.IMG }}
+          
+      - name: 解包
+        run: |
+          cd work
+          chmod +x ./gradlew
+          ./gradlew unpack
+          cd build/unzip_${{ github.event.inputs.IMGTYPE }}
+          zip -r -9 Unpack_${{ github.event.inputs.IMGTYPE }}.zip ./*
+          
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./build/unzip_${{ github.event.inputs.IMGTYPE }}/Unpack_${{ github.event.inputs.IMGTYPE }}.zip
+          name: Unpack-${{ github.run_id }}
+          tag_name: ${{ github.run_id }}
+          body: Unpack
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
