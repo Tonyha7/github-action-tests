@@ -20,7 +20,13 @@ jobs:
           sudo apt update
           sudo apt install git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full
           git clone https://github.com/cfig/Android_boot_image_editor work --depth=1
-      
+
+      - name: 安裝JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+
       - name: 下载img
         run: |
           curl -o ./work/${{ github.event.inputs.IMGTYPE }}.img ${{ github.event.inputs.IMG }}
