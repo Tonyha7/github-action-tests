@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install device-tree-compiler p7zip-full
-          git clone https://github.com/cfig/Android_boot_image_editor work --depth=1
+          git clone https://github.com/cfig/Android_boot_image_editor work
 
       - name: 安裝JDK
         uses: actions/setup-java@v3
