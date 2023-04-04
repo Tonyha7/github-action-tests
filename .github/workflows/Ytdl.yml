@@ -43,8 +43,8 @@ jobs:
               then
                 split -d -b 1024m - "$video"
               fi
+            fi
           done
-        fi
 
       - name: Upload
         uses: softprops/action-gh-release@v1
