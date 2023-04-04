@@ -29,6 +29,17 @@ jobs:
           cd temp
           yt-dlp -f bestvideo+bestaudio --merge-output-format mkv --write-subs "${{ github.event.inputs.URL }}"
 
+      - name: Split Big Video
+        run: |
+          cd temp
+          for video in $(ls)
+          do
+            if [[ $(du -sb "$video" | awk "{print $1}") -gt "$((2 * 1024 *1024 *1024))" ]];
+            then
+              split -d -b 1536m - "$video"
+            fi
+          done
+
       - name: Upload
         uses: softprops/action-gh-release@v1
         with:
