@@ -10,22 +10,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v2
+        id: setup-ffmpeg
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10' 
 
-      - name: Install YTDL
+      - name: Install
         run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-          sudo -H pip install --upgrade youtube-dl
+          pip install yt-dlp
           
       - name: Download Video
         run: |
           mkdir temp
           cd temp
-          youtube-dl -f best "${{ github.event.inputs.URL }}"
+          yt-dlp o -f bestvideo+bestaudio/best "${{ github.event.inputs.URL }}"
 
           
       - name: Upload 2 Artifact
