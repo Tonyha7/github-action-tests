@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          yt-dlp o -f bestvideo+bestaudio/best "${{ github.event.inputs.URL }}"
+          yt-dlp o -f bestvideo+bestaudio --merge-output-format mkv --write-subs "${{ github.event.inputs.URL }}"
 
           
       - name: Upload 2 Artifact
