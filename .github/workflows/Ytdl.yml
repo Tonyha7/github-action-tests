@@ -32,11 +32,11 @@ jobs:
       - name: Split Big Video
         run: |
           cd temp
-          for video in $(ls)
+          for video in `ls $*`
           do
-            if [[ $(du -sb $video | awk "{print $1}") -gt "$((2 * 1024 *1024 *1024))" ]];
+            if [[ $(du -sb "$video" | awk "{print $1}") -gt "$((2 * 1024 *1024 *1024))" ]];
             then
-              split -d -b 1536m - $video
+              split -d -b 1024m - "$video"
             fi
           done
 
