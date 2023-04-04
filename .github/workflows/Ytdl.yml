@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.10' 
 
-      - name: Install
+      - name: Install yt-dlp
         run: |
           pip install yt-dlp
           
@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Downloaded_${{ github.run_id }}
-          path: /temp/*
+          path: /temp
