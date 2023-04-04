@@ -39,7 +39,7 @@ jobs:
             if [ -d "$videof" ];then
               getLocalizeString "$videof"
             else
-              if [[ $(du -sb "$videof" | awk "{print $1}") -gt "$((2 * 1024 *1024 *1024))" ]];
+              if [[ $(du -sb "$videof" | awk "{print $1}") -ge "$((2 * 1024 *1024 *1024))" ]];
               then
                 split -d -b 1024m - "$video"
               fi
