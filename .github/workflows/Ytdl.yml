@@ -29,9 +29,12 @@ jobs:
           cd temp
           yt-dlp -f bestvideo+bestaudio --merge-output-format mkv --write-subs "${{ github.event.inputs.URL }}"
 
-          
-      - name: Upload 2 Artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload
+        uses: softprops/action-gh-release@v1
         with:
-          name: Downloaded_${{ github.run_id }}
-          path: /temp
+          files: | 
+            temp/*
+          name: Download_${{ github.run_id }}
+          tag_name: ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
