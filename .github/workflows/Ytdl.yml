@@ -32,7 +32,7 @@ jobs:
       - name: Split Big Video
         run: |
           cd temp
-          for video in `ls $*`
+          for video in `ls "$*" | tr " " "\?"`
           do
             video=`tr "\?" " " <<<$video`
             videof="$1"/"$video"
