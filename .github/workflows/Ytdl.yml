@@ -32,18 +32,14 @@ jobs:
       - name: Split Big Video
         run: |
           cd temp
-          for video in `ls "$*" | tr " " "\?"`
-          do
-            video=`tr "\?" " " <<<$video`
-            videof="$1"/"$video"
-            if [ -d "$videof" ];then
-              getLocalizeString "$videof"
-            else
-              if [[ $(du -sb "$videof" | awk "{print $1}") -ge "$((2 * 1024 *1024 *1024))" ]];
-              then
-                split -d -b 1024m - "$video"
-              fi
+          shopt -s nullglob
+          for video in $(ls); do
+          if [[ -f "$video" ]]; then
+            size=$(du -sb "$video" | awk '{print $1}')
+            if [[ "$size" -ge "$((2 * 1024 * 1024 * 1024))" ]]; then
+              split -d -b 1536m -- "$video" "$video.part"
             fi
+          fi
           done
 
       - name: Upload
