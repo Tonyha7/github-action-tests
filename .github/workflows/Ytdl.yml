@@ -32,15 +32,10 @@ jobs:
       - name: Split Big Video
         run: |
           cd temp
-          shopt -s nullglob
-          for video in $(ls); do
-          if [[ -f "$video" ]]; then
-            size=$(du -sb "$video" | awk '{print $1}')
-            if [[ "$size" -ge "$((2 * 1024 * 1024 * 1024))" ]]; then
-              split -d -b 1536m -- "$video" "$video.part"
-            fi
-          fi
-          done
+          find . -type f -print0 | xargs -L 1 -0 if [[ $(du -sb "$video" | awk "{print $1}") -gt "$((2 * 1024 *1024 *1024))" ]];
+              then
+                split -d -b 1024m - "$video"
+              fi
 
       - name: Upload
         uses: softprops/action-gh-release@v1
