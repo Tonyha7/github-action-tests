@@ -32,10 +32,7 @@ jobs:
       - name: Split Big Video
         run: |
           cd temp
-          find . -type f -print0 | xargs -L 1 -0 if [[ $(du -sb "$video" | awk "{print $1}") -gt "$((2 * 1024 *1024 *1024))" ]];
-              then
-                split -d -b 1024m - "$video"
-              fi
+          find . -type f -print0 | xargs -I video -L 1 -0 'if [[ $(du -sb video | awk "{print $1}") -ge "$((2 * 1024 *1024 *1024))" ]];then split -d -b 1024m - "$video" fi'
 
       - name: Upload
         uses: softprops/action-gh-release@v1
