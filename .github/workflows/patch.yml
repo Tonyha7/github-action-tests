@@ -19,14 +19,14 @@ jobs:
       - name: Gen Patch
         run: |
           cd temp
-          git format-patch -1 ${{ github.event.inputs.COMMIT }}
+          git format-patch ${{ github.event.inputs.COMMIT }}
 
       - name: Upload
         uses: softprops/action-gh-release@v1
         with:
           files: | 
             temp/*.patch
-          name: Unpack_${{ github.run_id }}
+          name: Patch_${{ github.run_id }}
           tag_name: ${{ github.run_id }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
