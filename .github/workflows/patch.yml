@@ -20,11 +20,16 @@ jobs:
         run: |
           cd temp
           git format-patch ${{ github.event.inputs.COMMIT }}
+          mkdir upload
+          cp *.patch upload
+          cd upload
+          zip -r patch.zip ./*
 
       - name: Upload
         uses: softprops/action-gh-release@v1
         with:
           files: | 
+            temp/upload/patch.zip
             temp/*.patch
           name: Patch_${{ github.run_id }}
           tag_name: ${{ github.run_id }}
