@@ -5,7 +5,7 @@ on:
     inputs:
       URL:
         required: true
-        default: 'https://bigota.d.miui.com/V14.0.8.0.TLFCNXM/fw_diting_miui_DITING_V14.0.8.0.TLFCNXM_2c3f0b1c25_13.0.zip'
+        default: 'https://bigota.d.miui.com/V14.0.8.0.TLFCNXM/miui_DITING_V14.0.8.0.TLFCNXM_2c3f0b1c25_13.0.zip'
       MAGISK:
         required: true
         default: 'https://github.com/topjohnwu/Magisk/releases/download/v26.1/Magisk-v26.1.apk'
