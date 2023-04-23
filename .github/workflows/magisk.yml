@@ -1,0 +1,36 @@
+name: OTA Magisk Patcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      URL:
+        required: true
+      MAGISK:
+        required: true
+        default: 'https://github.com/topjohnwu/Magisk/releases/download/v26.1/Magisk-v26.1.apk'
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Program
+        run: |
+          mkdir temp
+          cd temp
+          wget https://github.com/tobyxdd/android-ota-payload-extractor/releases/download/v1.1/android-ota-extractor-v1.1-linux-amd64.tar.gz -O tool.tar.gz
+          tar -zxvf tool.tar.gz
+          rm tool.tar.gz
+          chmod +x ./android-ota-extractor
+
+      - name: Download OTA & Extract
+        run: |
+          mkdir magisk
+          cd magisk
+          wget "${{ github.event.inputs.MAGISK }}" -O Magisk.zip
+          unzip Magisk.zip
+          ls
+          tree
+          
+
