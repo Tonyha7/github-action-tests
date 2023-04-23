@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Download Program
         run: |
+          apt install rename
           mkdir temp
           cd temp
           wget https://github.com/tobyxdd/android-ota-payload-extractor/releases/download/v1.1/android-ota-extractor-v1.1-linux-amd64.tar.gz -O tool.tar.gz
@@ -26,7 +27,6 @@ jobs:
 
       - name: Download OTA & Extract
         run: |
-          apt install rename
           mkdir magisk
           cd magisk
           wget "${{ github.event.inputs.MAGISK }}" -O Magisk.zip
