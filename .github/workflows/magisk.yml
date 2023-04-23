@@ -32,7 +32,7 @@ jobs:
           ./android-ota-extractor ./OTA.zip ${{ github.event.inputs.PATCH_PARTITION }}
           cd ..
           mkdir magisk
-          mv temp/${{ github.event.inputs.PATCH_PARTITION }}.img magisk
+          cp temp/${{ github.event.inputs.PATCH_PARTITION }}.img magisk/${{ github.event.inputs.PATCH_PARTITION }}.img
 
       - name: Download OTA & Extract
         run: |
@@ -45,7 +45,7 @@ jobs:
           mv ./lib/x86_64/* ./assets
           chmod -R a+x ./assets/*
           cd assets
-          bash ./assets/boot_patch.sh ../${{ github.event.inputs.PATCH_PARTITION }}.img
+          bash ./boot_patch.sh ../${{ github.event.inputs.PATCH_PARTITION }}.img
           cd ..
           rm -rf res
           tree
