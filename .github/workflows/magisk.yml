@@ -39,9 +39,6 @@ jobs:
           bash ./assets/boot_patch.sh
           
 
-          rm tool.tar.gz
-          chmod +x ./android-ota-extractor
-
       - name: Download OTA & Extract
         run: |
           mkdir magisk
