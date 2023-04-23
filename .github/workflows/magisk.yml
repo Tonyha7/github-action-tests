@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Download Program
         run: |
-          apt install rename
+          sudo apt install -y rename
           mkdir temp
           cd temp
           wget https://github.com/tobyxdd/android-ota-payload-extractor/releases/download/v1.1/android-ota-extractor-v1.1-linux-amd64.tar.gz -O tool.tar.gz
