@@ -32,8 +32,9 @@ jobs:
           wget "${{ github.event.inputs.MAGISK }}" -O Magisk.zip
           unzip Magisk.zip >> /dev/null
           cd ./lib/x86_64
-          rename 's/lib/' *
-          rename '.so' '' *
+          rename "s//lib//" *
+          rename "s//.so//" *
+          ls
           cd ../../
           mv ./lib/x86_64/* ./assets/
           tree
