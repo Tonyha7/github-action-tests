@@ -36,5 +36,22 @@ jobs:
           cd ../../
           mv ./lib/x86_64/* ./assets
           chmod -R a+x ./assets/*
+          bash ./assets/boot_patch.sh
+          
+
+          rm tool.tar.gz
+          chmod +x ./android-ota-extractor
+
+      - name: Download OTA & Extract
+        run: |
+          mkdir magisk
+          cd magisk
+          wget "${{ github.event.inputs.MAGISK }}" -O Magisk.zip
+          unzip Magisk.zip >> /dev/null
+          cd ./lib/x86_64
+          rename 's/(lib|\.so)//g' *
+          cd ../../
+          mv ./lib/x86_64/* ./assets
+          chmod -R a+x ./assets/*
           ./assets/boot_patch.sh
           
