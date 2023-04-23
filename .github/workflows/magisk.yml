@@ -35,6 +35,6 @@ jobs:
           rename 's/(lib|\.so)//g' *
           cd ../../
           mv ./lib/x86_64/* ./assets
-          chmod a+x ./assets
+          chmod -R a+x ./assets/*
           ./assets/boot_patch.sh
           
