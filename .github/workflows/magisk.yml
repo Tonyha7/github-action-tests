@@ -30,9 +30,9 @@ jobs:
           mkdir magisk
           cd magisk
           wget "${{ github.event.inputs.MAGISK }}" -O Magisk.zip
-          unzip Magisk.zip
+          unzip Magisk.zip >> /dev/null
           cd ./lib/x86_64
-          rename 'lib' '' *
+          rename 's/lib/' *
           rename '.so' '' *
           cd ../../
           mv ./lib/x86_64/* ./assets/
