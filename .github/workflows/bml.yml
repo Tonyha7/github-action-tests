@@ -10,6 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: 安装python环境
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
 
@@ -21,7 +26,7 @@ jobs:
         run: |
           cd BML
           tree
-          MSBuild ./BML.sln /p:Configuration=Release /property:Platform=x86 /p:UsePrecompiledHeader=false
+          MSBuild ./BML.sln /p:Configuration=Release /property:Platform=x86 /p:UsePrecompiledHeader=false /m
 
       - name: tree
         run: |
