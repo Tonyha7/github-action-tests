@@ -10,18 +10,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
       - name: clone
         run: |
-          choco install visualstudio2019buildtools -y
           git clone https://github.com/Gamepiaynmo/BallanceModLoader BML
         
       - name: build
         run: |
           cd BML
           tree
-          devenv.com ./BML.sln /Build "Release|Win32"
+          MSBuild ./BML.sln /p:Configuration=Release /property:Platform=x86 /p:UsePrecompiledHeader=false
 
-      - name: build
+      - name: tree
         run: |
           cd BML
           tree
