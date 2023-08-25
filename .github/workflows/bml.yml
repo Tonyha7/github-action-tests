@@ -31,5 +31,11 @@ jobs:
 
       - name: tree
         run: |
-          cd BML
+          cd BML/Release
           tree
+
+      - name: 上传Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Release
+          path: BML/Release
