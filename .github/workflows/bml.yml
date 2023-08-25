@@ -1,0 +1,26 @@
+name: BML
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: clone
+        run: |
+          git clone https://github.com/Gamepiaynmo/BallanceModLoader BML
+        
+      - name: build
+        run: |
+          cd BML
+          tree
+          devenv.com ./BML.sln /Build "Release|Win32"
+
+      - name: build
+        run: |
+          cd BML
+          tree
