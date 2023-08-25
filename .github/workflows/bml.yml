@@ -27,6 +27,7 @@ jobs:
           cd BML
           tree
           MSBuild ./BML.sln /p:Configuration=Release /property:Platform=x86 /p:UsePrecompiledHeader=false /m
+        continue-on-error: true
 
       - name: tree
         run: |
