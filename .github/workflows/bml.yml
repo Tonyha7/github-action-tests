@@ -12,6 +12,7 @@ jobs:
 
       - name: clone
         run: |
+          choco install visualstudio2019buildtools -y
           git clone https://github.com/Gamepiaynmo/BallanceModLoader BML
         
       - name: build
