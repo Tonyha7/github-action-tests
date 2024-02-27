@@ -6,19 +6,19 @@ on:
       JDK:
         description: 'JDK'
         required: true
-        default: '11'
+        default: '17'
       Project:
         description: '項目地址'
         required: true
-        default: 'https://github.com/xiaojieonly/Ehviewer_CN_SXJ'
+        default: 'https://github.com/ljlVink/TapFlow'
       ProjectName:
         description: '項目名称'
         required: true
-        default: 'Ehviewer_CN_SXJ'
+        default: 'TapFlow'
       BCommand:
         description: '構建命令'
         required: true
-        default: 'gradlew build'
+        default: 'gradlew assembleRelease'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,3 +53,13 @@ jobs:
         with:
           name: ${{ github.event.inputs.ProjectName }}_Build
           path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/apk/
+
+      - name: Upload
+        uses: softprops/action-gh-release@v1
+        with:
+          files: | 
+            ${{ github.event.inputs.ProjectName }}/app/release/*
+          name: APK_${{ github.run_id }}
+          tag_name: ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
