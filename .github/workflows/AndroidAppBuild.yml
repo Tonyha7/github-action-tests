@@ -6,19 +6,19 @@ on:
       JDK:
         description: 'JDK'
         required: true
-        default: '17'
+        default: '21'
       Project:
         description: '項目地址'
         required: true
-        default: 'https://github.com/ljlVink/TapFlow'
+        default: 'https://github.com/Tonyha7/Dreamland'
       ProjectName:
         description: '項目名称'
         required: true
-        default: 'TapFlow'
+        default: 'Dreamland'
       BCommand:
         description: '構建命令'
         required: true
-        default: 'gradlew assembleRelease'
+        default: 'gradlew assembleMagiskDebug assembleMagiskRelease'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: 安裝JDK環境
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: ${{ github.event.inputs.JDK }}
@@ -52,13 +52,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.event.inputs.ProjectName }}_Build
-          path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/apk/
+          path: ${{ github.event.inputs.ProjectName }}/app/build/outputs/magisk/
 
       - name: Upload
         uses: softprops/action-gh-release@v1
         with:
           files: | 
-            ${{ github.event.inputs.ProjectName }}/app/release/*
+            ${{ github.event.inputs.ProjectName }}/app/build/outputs/magisk/*
           name: APK_${{ github.run_id }}
           tag_name: ${{ github.run_id }}
         env:
