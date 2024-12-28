@@ -1,0 +1,43 @@
+name: susfs
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        required: true
+        default: 'https://gitlab.com/simonpunk/susfs4ksu.git'
+      branch:
+        required: true
+        default: 'gki-android12-5.10'
+      ndk_version:
+        required: true
+        default: 'r27c'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 準備
+        uses: actions/checkout@v4
+      
+      - name: NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: ${{ github.event.inputs.ndk_version }}
+
+      - name: Build
+        run: |
+          git clone ${{ github.event.inputs.repo }} -b ${{ github.event.inputs.branch }} susfs4ksu --depth=1
+          cd susfs4ksu
+          ./build_ksu_susfs_tool.sh
+          ./build_ksu_module.sh
+
+      - name: Upload
+        uses: softprops/action-gh-release@v1
+        with:
+          files: | 
+            susfs4ksu/ksu_module_susfs.zip
+          name: Build_${{ github.run_id }}
+          tag_name: ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
