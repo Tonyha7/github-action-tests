@@ -20,6 +20,7 @@ jobs:
           cd temp
           ./setup_project.bat
           msbuild src/ext-cs2-skin-changer.sln /p:Platform=x64 /p:Configuration=Release
+          tree
 
       - name: Upload
         uses: softprops/action-gh-release@v1
