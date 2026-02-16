@@ -19,7 +19,7 @@ jobs:
         run: |
           cd temp
           ./setup_project.bat
-          msbuild src/ext-cs2-skin-changer.sln /p:Platform=x64 /p:Configuration=Release
+          msbuild src/ext-cs2-skin-changer.sln /p:Platform=x64 /p:Configuration=Release /p:RuntimeLibrary=MultiThreaded
           tree /f
 
       - name: Upload
