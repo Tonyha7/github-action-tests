@@ -1,0 +1,32 @@
+name: build ext skins
+
+on:
+  workflow_dispatch:
+    inputs:
+      URL:
+        required: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Clone
+        run: |
+          git clone ${{ github.event.inputs.URL }} temp
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+      - name: Gen Patch
+        run: |
+          cd temp
+          ./setup_project.bat
+          msbuild src/ext-cs2-skin-changer.sln /p:Platform=x64 /p:Configuration=Release
+
+      - name: Upload
+        uses: softprops/action-gh-release@v1
+        with:
+          files: | 
+            temp/src/ext-cs2-skin-changer/x64/Release/*.exe
+          name: Patch_${{ github.run_id }}
+          tag_name: ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
